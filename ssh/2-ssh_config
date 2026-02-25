@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Configuring SSH Client to use the private key instead of a password. This file shows the config data for my ssh 
+
+Host *
+        IdentityFIle ~/.ssh/school
+        PasswordAuthentication no
