@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Configuring SSH Client to use the private key instead of a password. This file shows the config data for my ssh 
 
-Host *
+Host 7040-web-01
         Hostname 54.159.20.254
         User ubuntu
         IdentityFIle ~/.ssh/school
