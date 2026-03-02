@@ -2,7 +2,7 @@
 # Configuring SSH Client to use the private key instead of a password. This file shows the config data for my ssh 
 
 Host 7040-web-01
-        Hostname 54.159.20.254
+        Hostname 54.173.55.181
         User ubuntu
         IdentityFIle ~/.ssh/school
         PasswordAuthentication no
