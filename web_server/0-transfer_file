@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 "A bash script that sends data from client to webserver"
 
 if [ "$#" -lt 4 ]; then
