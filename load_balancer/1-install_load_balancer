@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Install and Configures HAProxy on lb-01 with roundrobin loadbalancing
+
+set -e
+
+# Install HAProxy
+apt-get update -y
+apt-get install -y haproxy
+
+# Enable HAProxy to be managed via init script
+echo "ENABLED=1" > /etc/default/haproxy
+
+# Configure HAProxy
+cat > /etc/haproxy/haproxy.cfg << 'EOF'
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 54.173.55.181:80 check
+    server web-02 54.211.203.174:80 check
+EOF
+
+# Test and restart HAProxy
+haproxy -c -f /etc/haproxy/haproxy.cfg && systemctl restart haproxy
+systemctl enable haproxy
