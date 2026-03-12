@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Configures a new Ubuntu machine with nginx and a custom X-Served-By header
+
+# Install nginx if not already installed
+apt-get update -y
+apt-get install nginx -y
+
+# Get the hostname of the server
+HOSTNAME=$(hostname)
+
+# Configure nginx with custom header
+cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+        add_header X-Served-By \$hostname;
+    }
+}
+EOF
+
+# Enable the site
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Test and restart nginx
+nginx -t && systemctl restart nginx
