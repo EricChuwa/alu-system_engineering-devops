@@ -31,4 +31,4 @@ EOF
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Test and restart nginx
-nginx -t && systemctl restart nginx
+nginx -t && nginx -s reload
