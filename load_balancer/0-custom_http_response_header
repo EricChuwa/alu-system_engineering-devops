@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Configures a new Ubuntu machine with nginx and a custom X-Served-By header
+shellcheck disable=SC2154
 
 # Install nginx if not already installed
 apt-get update -y
