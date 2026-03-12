@@ -18,6 +18,7 @@ frontend http_front
 
 backend http_back
     balance roundrobin
+    http-request set-header X-Served-By %s
     server web-01 54.173.55.181:80 check
     server web-02 54.211.203.174:80 check
 EOF
