@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy load balancer
+# Install and configure HAproxy load balancer with roundrobin algorithm
 
-# Update package list and install HAproxy
-apt-get update
+apt-get update -y
 apt-get install -y haproxy
 
-# Backup original config
-cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+# Remove any existing frontend/backend blocks to avoid duplicates
+sed -i '/^frontend/,$ d' /etc/haproxy/haproxy.cfg
 
-# Configure HAproxy
-cat >> /etc/haproxy/haproxy.cfg <<EOF
+# Append frontend and backend config
+cat >> /etc/haproxy/haproxy.cfg << 'EOF'
 
 frontend http_front
     bind *:80
@@ -19,12 +18,15 @@ frontend http_front
 backend http_back
     balance roundrobin
     mode http
+    option forwardfor
+    option http-server-close
     server 7040-web-01 54.173.55.181:80 check
     server 7040-web-02 54.211.203.174:80 check
 EOF
 
-# Enable HAproxy init script
-echo "ENABLED=1" > /etc/default/haproxy
+# Enable HAproxy init script management
+sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
 
-# Restart HAproxy
+# Validate and restart
+haproxy -c -f /etc/haproxy/haproxy.cfg
 service haproxy restart
