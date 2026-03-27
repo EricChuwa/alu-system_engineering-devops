@@ -19,8 +19,8 @@ frontend http_front
 backend http_back
     balance roundrobin
     mode http
-    server 6909-web-01 54.165.40.229:80 check
-    server 6909-web-02 54.152.35.234:80 check
+    server 7040-web-01 54.173.55.181:80 check
+    server 7040-web-02 54.211.203.174:80 check
 EOF
 
 # Enable HAproxy init script
